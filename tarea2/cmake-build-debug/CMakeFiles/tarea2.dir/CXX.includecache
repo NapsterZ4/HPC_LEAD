@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/main.cpp
+iostream
+-
+chrono
+-
+

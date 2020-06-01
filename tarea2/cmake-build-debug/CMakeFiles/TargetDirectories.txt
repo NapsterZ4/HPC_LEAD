@@ -1,0 +1,3 @@
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/cmake-build-debug/CMakeFiles/tarea2.dir
