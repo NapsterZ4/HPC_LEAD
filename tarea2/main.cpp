@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <chrono>
 #include "io.h"
 #include "omp.h"
@@ -29,6 +30,8 @@ void strassen(int **A, int **B, int **C, int N){
     int M1[N][N], M2[N][N], M3[N][N], M4[N][N], M5[N][N], M6[N][N], M7[N][N];
     int A11[N][N], A12[N][N], A21[N][N], A22[N][N], B11[N][N], B12[N][N], B21[N][N], B22[N][N];
     int C11[N][N], C12[N][N], C21[N][N], C22[N][N];
+    int AA1[N][N], AA2[N][N], AA3[N][N], AA4[N][N], AA5[N][N];
+    int BB1[N][N], BB2[N][N], BB3[N][N], BB4[N][N], BB5[N][N];
 
     for(int i=0; i<N/2; ++i) {
         for(int j=0; j<N/2; ++j) {
@@ -47,49 +50,138 @@ void strassen(int **A, int **B, int **C, int N){
     //Calculate M1
     for (int i = 0; i < N/2; ++i) {
         for (int j = 0; j < N/2; ++j) {
-            M1[i][j] = (A11[i][j] + A22[i][j]) * (B11[i][j] + B22[i][j]);
+            AA1[i][j] = (A11[i][j] + A22[i][j]); //add
         }
     }
+
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            BB1[i][j] = (B11[i][j] + B22[i][j]); //add
+        }
+    }
+
+    //Insert M1 multiply
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            M1[i][j] = 0;
+            for (int k = 0; k < N/2; ++k) {
+                M1[i][j] = M1[i][j] + AA1[i][k] * BB1[k][j];
+            }
+        }
+    }
+
 
     //Calculate M2
     for (int i = 0; i < N/2; ++i) {
         for (int j = 0; j < N/2; ++j) {
-            M2[i][j] = (A21[i][j] + A22[i][j]) * (B11[i][j]);
+            AA2[i][j] = (A21[i][j] + A22[i][j]); //add
+        }
+    }
+
+    //Insert M2 multiply
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            M2[i][j] = 0;
+            for (int k = 0; k < N/2; ++k) {
+                M2[i][j] = M2[i][j] + AA2[i][k] * B11[k][j];
+            }
         }
     }
 
     //Calculate M3
     for (int i = 0; i < N/2; ++i) {
         for (int j = 0; j < N/2; ++j) {
-            M3[i][j] = (A11[i][j]) * (B12[i][j] - B22[i][j]);
+            BB2[i][j] = B12[i][j] - B22[i][j]; //sub
+        }
+    }
+
+    //Insert M3 multiply
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            M3[i][j] = 0;
+            for (int k = 0; k < N/2; ++k) {
+                M3[i][j] = M3[i][j] + A11[i][k] * (BB2[k][j]);
+            }
         }
     }
 
     //Calculate M4
     for (int i = 0; i < N/2; ++i) {
         for (int j = 0; j < N/2; ++j) {
-            M4[i][j] = (A22[i][j]) * (B21[i][j] - B11[i][j]);
+            BB3[i][j] = B21[i][j] - B11[i][j]; //sub
+        }
+    }
+
+    //Insert M4 multiply
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            M4[i][j] = 0;
+            for (int k = 0; k < N/2; ++k) {
+                M4[i][j] = M4[i][j] + A22[i][k] * BB3[k][j];
+            }
         }
     }
 
     //Calculate M5
     for (int i = 0; i < N/2; ++i) {
         for (int j = 0; j < N/2; ++j) {
-            M5[i][j] = (A11[i][j] + A12[i][j]) * (B22[i][j]);
+            AA3[i][j] = A11[i][j] + A12[i][j]; //add
+        }
+    }
+
+    //Insert M5 multiply
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            M5[i][j] = 0;
+            for (int k = 0; k < N/2; ++k) {
+                M5[i][j] = M5[i][j] + AA3[i][k] * B22[k][j];
+            }
         }
     }
 
     //Calculate M6
     for (int i = 0; i < N/2; ++i) {
         for (int j = 0; j < N/2; ++j) {
-            M6[i][j] = (A21[i][j] - A11[i][j]) * (B11[i][j] + B12[i][j]);
+            AA4[i][j] = A21[i][j] - A11[i][j]; //sub
+        }
+    }
+
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            BB4[i][j] = B11[i][j] + B12[i][j]; //add
+        }
+    }
+
+    //Insert M6 multiply
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            M6[i][j] = 0;
+            for (int k = 0; k < N/2; ++k) {
+                M6[i][j] = M6[i][j] + AA4[i][k] * BB4[k][j];
+            }
         }
     }
 
     //Calculate M7
     for (int i = 0; i < N/2; ++i) {
         for (int j = 0; j < N/2; ++j) {
-            M7[i][j] = (A12[i][j] - A22[i][j]) * (B21[i][j] + B22[i][j]);
+            AA5[i][j] = A12[i][j] - A22[i][j]; //sub
+        }
+    }
+
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            BB5[i][j] = B21[i][j] + B22[i][j]; //add
+        }
+    }
+
+    //Insert M6 multiply
+    for (int i = 0; i < N/2; ++i) {
+        for (int j = 0; j < N/2; ++j) {
+            M7[i][j] = 0;
+            for (int k = 0; k < N/2; ++k) {
+                M7[i][j] = M7[i][j] + AA5[i][k] * BB5[k][j];
+            }
         }
     }
 
@@ -123,7 +215,7 @@ void strassen(int **A, int **B, int **C, int N){
 
     //Insert in C matrix
     for (int i = 0; i < N/2; ++i) {
-        for (int j = 0; j < N/ 2; ++j) {
+        for (int j = 0; j < N/2; ++j) {
             C[i][j] = C11[i][j];
             C[i][j + N/2] = C12[i][j];
             C[i + N/2][j] = C21[i][j];
@@ -177,7 +269,7 @@ int main(int argc, char* argv[]) {
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
 
     duration <double> totalTime = t2 - t1;
-    cout << "Processing time: " << totalTime.count() << " seconds.";
+    cout << "Processing time: " << totalTime.count() << " seconds.\n";
 
     // Releasing memory
     for (int i=0; i<N; i++) {
