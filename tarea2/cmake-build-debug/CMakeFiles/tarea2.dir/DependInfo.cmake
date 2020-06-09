@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/main.cpp" "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/cmake-build-debug/CMakeFiles/tarea2.dir/main.cpp.o"
+  "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/strassen.cpp" "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/cmake-build-debug/CMakeFiles/tarea2.dir/strassen.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

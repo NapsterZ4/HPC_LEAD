@@ -57,27 +57,27 @@ include CMakeFiles/tarea2.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/tarea2.dir/flags.make
 
-CMakeFiles/tarea2.dir/main.cpp.o: CMakeFiles/tarea2.dir/flags.make
-CMakeFiles/tarea2.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tarea2.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tarea2.dir/main.cpp.o -c "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/main.cpp"
+CMakeFiles/tarea2.dir/strassen.cpp.o: CMakeFiles/tarea2.dir/flags.make
+CMakeFiles/tarea2.dir/strassen.cpp.o: ../strassen.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tarea2.dir/strassen.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/tarea2.dir/strassen.cpp.o -c "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/strassen.cpp"
 
-CMakeFiles/tarea2.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tarea2.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/main.cpp" > CMakeFiles/tarea2.dir/main.cpp.i
+CMakeFiles/tarea2.dir/strassen.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/tarea2.dir/strassen.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/strassen.cpp" > CMakeFiles/tarea2.dir/strassen.cpp.i
 
-CMakeFiles/tarea2.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tarea2.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/main.cpp" -o CMakeFiles/tarea2.dir/main.cpp.s
+CMakeFiles/tarea2.dir/strassen.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/tarea2.dir/strassen.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/strassen.cpp" -o CMakeFiles/tarea2.dir/strassen.cpp.s
 
 # Object files for target tarea2
 tarea2_OBJECTS = \
-"CMakeFiles/tarea2.dir/main.cpp.o"
+"CMakeFiles/tarea2.dir/strassen.cpp.o"
 
 # External object files for target tarea2
 tarea2_EXTERNAL_OBJECTS =
 
-tarea2: CMakeFiles/tarea2.dir/main.cpp.o
+tarea2: CMakeFiles/tarea2.dir/strassen.cpp.o
 tarea2: CMakeFiles/tarea2.dir/build.make
 tarea2: CMakeFiles/tarea2.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea2/cmake-build-debug/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable tarea2"

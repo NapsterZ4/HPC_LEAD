@@ -123,32 +123,32 @@ tarea2/fast:
 	$(MAKE) -f CMakeFiles/tarea2.dir/build.make CMakeFiles/tarea2.dir/build
 .PHONY : tarea2/fast
 
-main.o: main.cpp.o
+strassen.o: strassen.cpp.o
 
-.PHONY : main.o
+.PHONY : strassen.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/tarea2.dir/build.make CMakeFiles/tarea2.dir/main.cpp.o
-.PHONY : main.cpp.o
+strassen.cpp.o:
+	$(MAKE) -f CMakeFiles/tarea2.dir/build.make CMakeFiles/tarea2.dir/strassen.cpp.o
+.PHONY : strassen.cpp.o
 
-main.i: main.cpp.i
+strassen.i: strassen.cpp.i
 
-.PHONY : main.i
+.PHONY : strassen.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/tarea2.dir/build.make CMakeFiles/tarea2.dir/main.cpp.i
-.PHONY : main.cpp.i
+strassen.cpp.i:
+	$(MAKE) -f CMakeFiles/tarea2.dir/build.make CMakeFiles/tarea2.dir/strassen.cpp.i
+.PHONY : strassen.cpp.i
 
-main.s: main.cpp.s
+strassen.s: strassen.cpp.s
 
-.PHONY : main.s
+.PHONY : strassen.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/tarea2.dir/build.make CMakeFiles/tarea2.dir/main.cpp.s
-.PHONY : main.cpp.s
+strassen.cpp.s:
+	$(MAKE) -f CMakeFiles/tarea2.dir/build.make CMakeFiles/tarea2.dir/strassen.cpp.s
+.PHONY : strassen.cpp.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... tarea2"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... strassen.o"
+	@echo "... strassen.i"
+	@echo "... strassen.s"
 .PHONY : help
 
 

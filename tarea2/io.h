@@ -71,4 +71,24 @@ void printMatrix(int **matrix, int N){
 	}
 }
 
+int matrixRandomComplete(int **A, int **B, int N){
+    int num;
+    srand(time(NULL));
 
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            num = rand();
+            A[i][j] = num;
+        }
+    }
+    cout << "Matrix A Complete!" << endl;
+
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            num = rand();
+            B[i][j] = num;
+        }
+    }
+    cout << "Matrix B Complete!" << endl;
+    return 0;
+}

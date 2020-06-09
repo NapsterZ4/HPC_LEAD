@@ -1,1 +1,1 @@
-/usr/bin/c++  -g   CMakeFiles/tarea2.dir/main.cpp.o  -o tarea2 
+/usr/bin/c++  -g   CMakeFiles/tarea2.dir/strassen.cpp.o  -o tarea2 
