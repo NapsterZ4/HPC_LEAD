@@ -7,13 +7,10 @@
 using namespace std;
 using namespace std::chrono;
 
-void strassen(int **A, int **B, int **C, int N){
-    //Declare sub-matrix from A and B for multiple position numbers and alternatives matrix
-    int M1[N][N], M2[N][N], M3[N][N], M4[N][N], M5[N][N], M6[N][N], M7[N][N];
-    int A11[N][N], A12[N][N], A21[N][N], A22[N][N], B11[N][N], B12[N][N], B21[N][N], B22[N][N];
-    int C11[N][N], C12[N][N], C21[N][N], C22[N][N];
-    int AA1[N][N], AA2[N][N], AA3[N][N], AA4[N][N], AA5[N][N];
-    int BB1[N][N], BB2[N][N], BB3[N][N], BB4[N][N], BB5[N][N];
+void strassen(int **A, int **B, int **C, int N, int **A11, int **A12, int **A21, int **A22, int **B11, int **B12, int **B21,
+            int **B22, int **M1, int **M2, int **M3, int **M4, int **M5, int **M6, int **M7, int **C11, int **C12,
+            int **C21, int **C22, int **AA1, int **AA2, int **AA3, int **AA4, int **AA5, int **BB1, int **BB2, int **BB3,
+            int **BB4, int **BB5) {
 
     for (int i = 0; i < N / 2; ++i) {
         for (int j = 0; j < N / 2; ++j) {
@@ -238,6 +235,12 @@ void strassen(int **A, int **B, int **C, int N){
 int main(int argc, char* argv[]) {
     int N;
     int **A, **B, **C;
+    // Alternatives sub-matrix's
+    int **A11, **A12, **A21, **A22, **B11, **B12, **B21, **B22;
+    int **M1, **M2, **M3, **M4, **M5, **M6, **M7;
+    int **C11, **C12, **C21, **C22;
+    int **AA1, **AA2, **AA3, **AA4, **AA5;
+    int **BB1, **BB2, **BB3, **BB4, **BB5;
 
     if (argc != 2 && argc != 4){
         cout << " error, Parameters: <N> <FileA Matrix> <FileB Matrix>" << endl;
@@ -250,11 +253,72 @@ int main(int argc, char* argv[]) {
     A = new int*[N];
     B = new int*[N];
     C = new int*[N];
+    //Sub matrix's
+    A11 = new int*[N];
+    A12 = new int*[N];
+    A21 = new int*[N];
+    A22 = new int*[N];
+    B11 = new int*[N];
+    B12 = new int*[N];
+    B21 = new int*[N];
+    B22 = new int*[N];
+    M1 = new int*[N];
+    M2 = new int*[N];
+    M3 = new int*[N];
+    M4 = new int*[N];
+    M5 = new int*[N];
+    M6 = new int*[N],
+    M7 = new int*[N];
+    C11 = new int*[N];
+    C12 = new int*[N];
+    C21 = new int*[N];
+    C22 = new int*[N];
+    AA1 = new int*[N];
+    AA2 = new int*[N];
+    AA3 = new int*[N];
+    AA4 = new int*[N];
+    AA5 = new int*[N];
+    BB1 = new int*[N];
+    BB2 = new int*[N];
+    BB3 = new int*[N];
+    BB4 = new int*[N];
+    BB5 = new int*[N];
 
     for (int i = 0; i < N; ++i) {
+        // Matrix
         A[i] = new int[N];
         B[i] = new int[N];
         C[i] = new int[N];
+        //Sub matrix's
+        A11[i] = new int[N];
+        A12[i] = new int[N];
+        A21[i] = new int[N];
+        A22[i] = new int[N];
+        B11[i] = new int[N];
+        B12[i] = new int[N];
+        B21[i] = new int[N];
+        B22[i] = new int[N];
+        M1[i] = new int[N];
+        M2[i] = new int[N];
+        M3[i] = new int[N];
+        M4[i] = new int[N];
+        M5[i] = new int[N];
+        M6[i] = new int[N],
+        M7[i] = new int[N];
+        C11[i] = new int[N];
+        C12[i] = new int[N];
+        C21[i] = new int[N];
+        C22[i] = new int[N];
+        AA1[i] = new int[N];
+        AA2[i] = new int[N];
+        AA3[i] = new int[N];
+        AA4[i] = new int[N];
+        AA5[i] = new int[N];
+        BB1[i] = new int[N];
+        BB2[i] = new int[N];
+        BB3[i] = new int[N];
+        BB4[i] = new int[N];
+        BB5[i] = new int[N];
     }
 
     if(argc == 4){
@@ -269,7 +333,8 @@ int main(int argc, char* argv[]) {
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
     // Algorithm
-    strassen(A, B, C, N);
+    strassen(A, B, C, N, A11, A12, A21, A22, B11, B12, B21, B22, M1, M2, M3, M4, M5, M6, M7, C11, C12, C21, C22,
+             AA1, AA2, AA3, AA4, AA5, BB1, BB2, BB3, BB4, BB5);
 
     // Impress matrix C
     if (argc == 4){
@@ -286,10 +351,68 @@ int main(int argc, char* argv[]) {
         delete [] A[i];
         delete [] B[i];
         delete [] C[i];
+        delete [] A11[i];
+        delete [] A12[i];
+        delete [] A21[i];
+        delete [] A22[i];
+        delete [] B11[i];
+        delete [] B12[i];
+        delete [] B21[i];
+        delete [] B22[i];
+        delete [] M1[i];
+        delete [] M2[i];
+        delete [] M3[i];
+        delete [] M4[i];
+        delete [] M5[i];
+        delete [] M6[i];
+        delete [] M7[i];
+        delete [] C11[i];
+        delete [] C12[i];
+        delete [] C21[i];
+        delete [] C22[i];
+        delete [] AA1[i];
+        delete [] AA2[i];
+        delete [] AA3[i];
+        delete [] AA4[i];
+        delete [] AA5[i];
+        delete [] BB1[i];
+        delete [] BB2[i];
+        delete [] BB3[i];
+        delete [] BB4[i];
+        delete [] BB5[i];
     }
     delete [] A;
     delete [] B;
     delete [] C;
+    delete [] A11;
+    delete [] A12;
+    delete [] A21;
+    delete [] A22;
+    delete [] B11;
+    delete [] B12;
+    delete [] B21;
+    delete [] B22;
+    delete [] M1;
+    delete [] M2;
+    delete [] M3;
+    delete [] M4;
+    delete [] M5;
+    delete [] M6;
+    delete [] M7;
+    delete [] C11;
+    delete [] C12;
+    delete [] C21;
+    delete [] C22;
+    delete [] AA1;
+    delete [] AA2;
+    delete [] AA3;
+    delete [] AA4;
+    delete [] AA5;
+    delete [] BB1;
+    delete [] BB2;
+    delete [] BB3;
+    delete [] BB4;
+    delete [] BB5;
 
     return 0;
 }

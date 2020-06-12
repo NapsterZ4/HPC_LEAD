@@ -77,7 +77,7 @@ int matrixRandomComplete(int **A, int **B, int N){
 
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
-            num = rand();
+            num = rand() % ((9 + 1) - 1);
             A[i][j] = num;
         }
     }
@@ -85,7 +85,7 @@ int matrixRandomComplete(int **A, int **B, int N){
 
     for (int i = 0; i < N; ++i) {
         for (int j = 0; j < N; ++j) {
-            num = rand();
+            num = rand() % ((9 + 1) - 1);
             B[i][j] = num;
         }
     }
