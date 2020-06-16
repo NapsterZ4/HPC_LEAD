@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea3/io.h
+iostream
+-
+fstream
+-
+vector
+-
+algorithm
+-
+
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea3/shear.cpp
+cstdio
+-
+cstdlib
+-
+omp.h
+-
+math.h
+-
+timer.h
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea3/timer.h
+io.h
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea3/io.h
+
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea3/timer.h
+sys/time.h
+-
+

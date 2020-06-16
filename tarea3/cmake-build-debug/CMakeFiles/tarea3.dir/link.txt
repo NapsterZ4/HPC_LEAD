@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/tarea3.dir/shear.cpp.o  -o tarea3 
