@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/heat2d.dir/heat2d.c.o  -o heat2d  -lm /usr/lib/x86_64-linux-gnu/libmpich.so 

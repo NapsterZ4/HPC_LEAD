@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/parsum.dir/parsum.c.o  -o parsum  -lm /usr/lib/x86_64-linux-gnu/libmpich.so 

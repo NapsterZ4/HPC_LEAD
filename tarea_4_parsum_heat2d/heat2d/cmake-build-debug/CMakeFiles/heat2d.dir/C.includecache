@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/mnt/napster_disk/LEAD University/IIQ - 2020/Computación Paralela y Distribuída/tareas/tarea_4_parsum_heat2d/heat2d/heat2d.c
+mpi.h
+-
+stdio.h
+-
+stdlib.h
+-
+math.h
+-
+time.h
+-
+
+/usr/include/x86_64-linux-gnu/mpich/mpi.h
+stddef.h
+-
+cstdint
+-
+stdint.h
+-
+mpio.h
+/usr/include/x86_64-linux-gnu/mpich/mpio.h
+mpicxx.h
+/usr/include/x86_64-linux-gnu/mpich/mpicxx.h
+
+/usr/include/x86_64-linux-gnu/mpich/mpicxx.h
+stdio.h
+-
+
+/usr/include/x86_64-linux-gnu/mpich/mpio.h
+mpi.h
+/usr/include/x86_64-linux-gnu/mpich/mpi.h
+
