@@ -64,7 +64,6 @@ int main(int argc, char *argv[]) {
 
     start_time = MPI_Wtime();
 
-    tmp = 0;
     // stencil loop
     for (int i = 0; i < M; ++i) {
         // TO DO: send ghost cells to neighbors
@@ -72,15 +71,17 @@ int main(int argc, char *argv[]) {
 
         if (rank == 0) {
             printf("Starting iteration %d\n", i);
-            MPI_Send(&data, sizeof(data), MPI_DOUBLE, rank + 1, 0, MPI_COMM_WORLD);
-            MPI_Recv(&tmp, sizeof(data), MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Send(&data, 1, MPI_DOUBLE, rank + 1, 0, MPI_COMM_WORLD);
+            MPI_Recv(&tmp, 1, MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         } else if (rank != 0 && rank != (size - 1)){
-            MPI_Send(&data, sizeof(data), MPI_DOUBLE, rank + 1, 0, MPI_COMM_WORLD);
-            MPI_Recv(&tmp, sizeof(data), MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Send(&data, 1, MPI_DOUBLE, rank + 1, 0, MPI_COMM_WORLD);
+            MPI_Recv(&tmp, 1, MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+//            printf("Rank is: %d \n", rank);
         } else if (rank == (size - 1)){
-            MPI_Send(&data, sizeof(data), MPI_DOUBLE, size - 2, 0, MPI_COMM_WORLD);
-            MPI_Recv(&tmp, sizeof(data), MPI_DOUBLE, size - 3, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Send(&data, 1, MPI_DOUBLE, rank - 2, 0, MPI_COMM_WORLD);
+            MPI_Recv(&tmp, 1, MPI_DOUBLE, rank - 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
+//        printf("size is: %d \n", size);
 
         // modify internal elements
         for (int i = 1; i < rows + 1; ++i) {
