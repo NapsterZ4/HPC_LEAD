@@ -1,4 +1,4 @@
 all:
-	mpicc -lm -o cenatMD cenatMD.c
+	mpicc -o cenatMD cenatMD.c -lm
 clean:
 	rm -f cenatMD

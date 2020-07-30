@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
 
     //TO DO: compute previous and next processes
     next = (myRank + 1) % p;
-    previous  = (myRank + p - 1) % p;
+    previous = (myRank + p - 1) % p;
 
     number = n;
     maxNumber = n;
@@ -166,16 +166,17 @@ int main(int argc, char **argv) {
 
         //TO DO: sending the local particles to the next processor, receiving the incoming foreign particle set and update both of them
         MPI_Send(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
-                next, tag, MPI_COMM_WORLD);
+                 next, tag, MPI_COMM_WORLD);
 
         MPI_Recv(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, previous, tag,
-                MPI_COMM_WORLD, &status);
+                 MPI_COMM_WORLD, &status);
 
 
         evolve(locals, foreigners, number, foreignNumber);
 
         //TO DO: running the algorithm for (p-1)/2 rounds. REMEMBER: call evolve function
-        for (int i = 0; i < (p - 1) / 2; ++i) {
+        int ring_iterations = (p - 1) / 2;
+        for (int i = 0; i < ring_iterations; ++i) {
             MPI_Send(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
                      next, tag, MPI_COMM_WORLD);
 
@@ -186,13 +187,16 @@ int main(int argc, char **argv) {
         }
 
         //TO DO: sending the particles to the initiator
-        initiator = (myRank + 1) % ((p - 1) / 2);
+//        initiator = (myRank + 1) % ((p - 1) / 2);
+//        initiator = (myRank + (p - 1) / 2) % p;
+        initiator = myRank - 1 + ring_iterations % p;
+        int origin = (initiator + p - 1) % p;
+
         MPI_Send(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
-                next, tag, MPI_COMM_WORLD);
+                 initiator, tag, MPI_COMM_WORLD);
 
-        MPI_Recv(initiator, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, previous, tag,
-                MPI_COMM_WORLD, &status);
-
+        MPI_Recv(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
+                 origin, tag, MPI_COMM_WORLD, &status);
 
         //TO DO: receiving the incoming particles and merging them with the local set, interacting the local set
 
