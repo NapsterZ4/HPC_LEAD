@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
     struct particle *locals;                            // Array of local particles
     struct particle *foreigners;                            // Array of foreign particles
     MPI_Status status;                                // Return status for receive
-    int i, j, rounds, initiator, sender, dump_flag, init_flag;
+    int i, j, rounds, origin, sender, dump_flag, init_flag;
     double start_time, end_time;
 
     // checking the number of parameters
@@ -186,17 +186,17 @@ int main(int argc, char **argv) {
             evolve(locals, foreigners, number, foreignNumber);
         }
 
-        //TO DO: sending the particles to the initiator
-//        initiator = (myRank + 1) % ((p - 1) / 2);
-//        initiator = (myRank + (p - 1) / 2) % p;
-        initiator = myRank - 1 + ring_iterations % p;
-        int origin = (initiator + p - 1) % p;
+        //TO DO: sending the particles to the origin
+//        origin = (myRank + 1) % ((p - 1) / 2);
+//        origin = (myRank + (p - 1) / 2) % p;
+        origin = (myRank + 1 + ring_iterations) % p;
+        int last = (myRank + ring_iterations) % p;
 
         MPI_Send(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
-                 initiator, tag, MPI_COMM_WORLD);
+                 origin, tag, MPI_COMM_WORLD);
 
         MPI_Recv(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
-                 origin, tag, MPI_COMM_WORLD, &status);
+                 last, tag, MPI_COMM_WORLD, &status);
 
         //TO DO: receiving the incoming particles and merging them with the local set, interacting the local set
 
@@ -368,7 +368,7 @@ void evolve(struct particle *first, struct particle *second, int limitFirst, int
 void merge(struct particle *first, struct particle *second, int limit) {
     int j;
 
-    for (j = 0; j < limit; j++) {
+    for (j = 0; j < limit; j++) {story |
         first[j].fx += second[j].fx;
         first[j].fy += second[j].fy;
         first[j].fz += second[j].fz;
