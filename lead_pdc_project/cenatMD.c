@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <omp.h>
 
 // General constants
 #define TAG 7
@@ -110,6 +111,7 @@ int main(int argc, char **argv) {
     //TO DO: compute previous and next processes
     next = (myRank + 1) % p;
     previous = (myRank + p - 1) % p;
+    //Genial
 
     number = n;
     maxNumber = n;
@@ -158,70 +160,75 @@ int main(int argc, char **argv) {
     start_time = MPI_Wtime();
 
     // executing iterations
-    for (i = 1; i <= iterations; i++) {
+#pragma omp parallel
+    {
+#pragma omp parallel for
+        for (i = 1; i <= iterations; i++) {
 
-        // cleaning forces in the particles
-        cleanForces(locals, number);
-        foreignNumber = n;
+            // cleaning forces in the particles
+            cleanForces(locals, number);
+            foreignNumber = n;
 
-        //TO DO: sending the local particles to the next processor, receiving the incoming foreign particle set and update both of them
-        MPI_Send(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
-                 next, tag, MPI_COMM_WORLD);
-
-        MPI_Recv(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, previous, tag,
-                 MPI_COMM_WORLD, &status);
-
-
-        evolve(locals, foreigners, number, foreignNumber);
-
-        //TO DO: running the algorithm for (p-1)/2 rounds. REMEMBER: call evolve function
-        int ring_iterations = (p - 1) / 2;
-        for (int i = 0; i < ring_iterations; ++i) {
+            //TO DO: sending the local particles to the next processor, receiving the incoming foreign particle set and update both of them
             MPI_Send(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
                      next, tag, MPI_COMM_WORLD);
 
             MPI_Recv(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, previous, tag,
                      MPI_COMM_WORLD, &status);
 
-            evolve(locals, foreigners, number, foreignNumber);
-        }
 
-        //TO DO: sending the particles to the origin
+            evolve(locals, foreigners, number, foreignNumber);
+
+            //TO DO: running the algorithm for (p-1)/2 rounds. REMEMBER: call evolve function
+            // Ya esta implementada una iteracion en el codigo anterior del primer TO DO
+            int ring_iterations = (p - 1) / 2;
+            for (int j = 1; j < ring_iterations; ++j) {
+                MPI_Send(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
+                         next, tag, MPI_COMM_WORLD);
+
+                MPI_Recv(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, previous, tag,
+                         MPI_COMM_WORLD, &status);
+
+                evolve(locals, foreigners, number, foreignNumber);
+            }
+
+            //TO DO: sending the particles to the origin
 //        origin = (myRank + 1) % ((p - 1) / 2);
 //        origin = (myRank + (p - 1) / 2) % p;
-        origin = (myRank + 1 + ring_iterations) % p;
-        int last = (myRank + ring_iterations) % p;
+            origin = (myRank + 1 + ring_iterations) % p;
+            sender = (myRank + ring_iterations) % p;
 
-        MPI_Send(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
-                 origin, tag, MPI_COMM_WORLD);
+            MPI_Send(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
+                     origin, tag, MPI_COMM_WORLD);
 
-        MPI_Recv(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
-                 last, tag, MPI_COMM_WORLD, &status);
+            MPI_Recv(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE,
+                     sender, tag, MPI_COMM_WORLD, &status);
 
-        //TO DO: receiving the incoming particles and merging them with the local set, interacting the local set
+            //TO DO: receiving the incoming particles and merging them with the local set, interacting the local set
 
-        merge(locals, foreigners, number);
-        evolve(locals, locals, number, number);
+            merge(locals, foreigners, number);
+            evolve(locals, locals, number, number);
 
-        // computing new velocity, acceleration and position
-        updateProperties(locals, number);
+            // computing new velocity, acceleration and position
+            updateProperties(locals, number);
 
-        // dumping particle positions on a file
-        if (dump_flag && (i % 100 == 0)) {
-            if (myRank == 0) {
-                int k;
-                printFile(locals, i, myRank, number);
-                for (k = 1; k < p; k++) {
-                    MPI_Recv(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, k, tag,
-                             MPI_COMM_WORLD, &status);
-                    printFile(foreigners, i, myRank, number);
+            // dumping particle positions on a file
+            if (dump_flag && (i % 100 == 0)) {
+                if (myRank == 0) {
+                    int k;
+                    printFile(locals, i, myRank, number);
+                    for (k = 1; k < p; k++) {
+                        MPI_Recv(foreigners, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, k, tag,
+                                 MPI_COMM_WORLD, &status);
+                        printFile(foreigners, i, myRank, number);
+                    }
+                } else {
+                    MPI_Send(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, 0, tag,
+                             MPI_COMM_WORLD);
                 }
-            } else {
-                MPI_Send(locals, number * (sizeof(struct particle)) / sizeof(double), MPI_DOUBLE, 0, tag,
-                         MPI_COMM_WORLD);
             }
         }
-    }
+    };
 
     end_time = MPI_Wtime();
     if (myRank == 0)
@@ -368,7 +375,7 @@ void evolve(struct particle *first, struct particle *second, int limitFirst, int
 void merge(struct particle *first, struct particle *second, int limit) {
     int j;
 
-    for (j = 0; j < limit; j++) {story |
+    for (j = 0; j < limit; j++) {
         first[j].fx += second[j].fx;
         first[j].fy += second[j].fy;
         first[j].fz += second[j].fz;
