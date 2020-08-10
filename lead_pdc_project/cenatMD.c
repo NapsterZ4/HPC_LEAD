@@ -160,9 +160,7 @@ int main(int argc, char **argv) {
     start_time = MPI_Wtime();
 
     // executing iterations
-#pragma omp parallel
-    {
-#pragma omp parallel for
+
         for (i = 1; i <= iterations; i++) {
 
             // cleaning forces in the particles
@@ -228,7 +226,7 @@ int main(int argc, char **argv) {
                 }
             }
         }
-    };
+   
 
     end_time = MPI_Wtime();
     if (myRank == 0)
@@ -361,10 +359,10 @@ void interact(struct particle *first, struct particle *second) {
 
 // Function for computing interaction among two particle arrays
 void evolve(struct particle *first, struct particle *second, int limitFirst, int limitSecond) {
-    int j, k;
-
-    for (j = 0; j < limitFirst; j++) {
-        for (k = j + 1; k < limitSecond; k++) {
+   
+#pragma omp parallel for
+    for (int j = 0; j < limitFirst; j++) {
+        for (int k = j + 1; k < limitSecond; k++) {
             interact(&first[j], &second[k]);
         }
     }
@@ -373,9 +371,9 @@ void evolve(struct particle *first, struct particle *second, int limitFirst, int
 // Function to merge two particle arrays
 // Permanent changes reside only in first array
 void merge(struct particle *first, struct particle *second, int limit) {
-    int j;
-
-    for (j = 0; j < limit; j++) {
+    
+#pragma omp parallel for
+    for (int j = 0; j < limit; j++) {
         first[j].fx += second[j].fx;
         first[j].fy += second[j].fy;
         first[j].fz += second[j].fz;
@@ -425,9 +423,9 @@ void updateProperties(struct particle *shared, int limit) {
 
 // Function to clean forces in particles
 void cleanForces(struct particle *shared, int limit) {
-    int j;
-
-    for (j = 0; j < limit; j++) {
+    
+#pragma omp parallel for
+    for (int j = 0; j < limit; j++) {
         shared[j].fx = 0.0;
         shared[j].fy = 0.0;
         shared[j].fz = 0.0;
