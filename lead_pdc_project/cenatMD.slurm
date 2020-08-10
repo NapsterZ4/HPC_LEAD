@@ -12,7 +12,7 @@ module load mpich/3.2.1-gcc-7.2.0
 module load gcc/7.2.0
 
 ###############Execution commands####################################
-export OMP_NUM_THREADS=16
+export OMP_NUM_THREADS=128
 mpiexec -np 16 ./cenatMD 200 7000 0 0 
 
 
