@@ -275,7 +275,7 @@ void printFile(struct particle *shared, int iteration, int rank, int limit) {
     FILE *output;
     int j;
     char filename[64];
-    sprintf(filename, "cenatMD_%d.txt", iteration);
+    sprintf(filename, "iteration_%d.txt", iteration);
 
 
     output = fopen(filename, "a+r");
