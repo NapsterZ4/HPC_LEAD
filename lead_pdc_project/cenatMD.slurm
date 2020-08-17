@@ -13,7 +13,7 @@ module load gcc/7.2.0
 
 ###############Execution commands####################################
 export OMP_NUM_THREADS=32
-mpiexec -np 16 ./cenatMD 200 70000 1 1 
+mpiexec -np 8 ./cenatMD 100 100 1 1 
 
 
 ######################################################################
